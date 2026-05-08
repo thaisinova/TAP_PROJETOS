@@ -1,16 +1,13 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title id="page-title">TAP – Implantação WMS · Inova</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js">
-</script>
+<title id="page-title">TAP – Shop Floor Management · Inova</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-/* ═══════════════════════════════════════════
-   TOKENS
-═══════════════════════════════════════════ */
 :root {
   --red:#cc1010; --red-dark:#a00d0d; --red-light:#f5d5d5;
   --black:#111111; --gray-dark:#1e1e1e; --gray-mid:#444444;
@@ -22,9 +19,6 @@
 html{scroll-behavior:smooth;}
 body{font-family:var(--font-b);background:#e8e8e8;color:var(--black);}
 
-/* ═══════════════════════════════════════════
-   TOOLBAR (hidden in PDF)
-═══════════════════════════════════════════ */
 #toolbar {
   position:sticky;top:0;z-index:1000;
   background:var(--black);
@@ -57,18 +51,12 @@ body{font-family:var(--font-b);background:#e8e8e8;color:var(--black);}
 .t-status{font-size:11px;color:#888;font-family:var(--font-h);}
 #save-indicator{color:#4caf50;font-size:11px;font-family:var(--font-h);opacity:0;transition:opacity .4s;}
 
-/* ═══════════════════════════════════════════
-   PAGE WRAPPER
-═══════════════════════════════════════════ */
 #page-wrap {
   max-width:900px;margin:32px auto;
   background:#fff;
   box-shadow:0 4px 32px rgba(0,0,0,0.14);
 }
 
-/* ═══════════════════════════════════════════
-   HEADER BLOCK
-═══════════════════════════════════════════ */
 .doc-header {
   background:var(--black);
   padding:0;
@@ -76,7 +64,7 @@ body{font-family:var(--font-b);background:#e8e8e8;color:var(--black);}
   overflow:hidden;
 }
 .doc-header::after {
-  content:'WMS';
+  content:'SFM';
   position:absolute;right:-16px;top:-8px;
   font-family:var(--font-h);font-weight:900;font-size:130px;
   color:rgba(204,16,16,.07);pointer-events:none;user-select:none;
@@ -98,7 +86,6 @@ body{font-family:var(--font-b);background:#e8e8e8;color:var(--black);}
   font-size:13px;color:#999;max-width:520px;line-height:1.7;
 }
 
-/* ─── Identity row ─── */
 .id-row {
   display:grid;grid-template-columns:repeat(4,1fr);
   border-top:1px solid #222;
@@ -117,9 +104,6 @@ body{font-family:var(--font-b);background:#e8e8e8;color:var(--black);}
 }
 .status-dot{color:var(--red);}
 
-/* ═══════════════════════════════════════════
-   SECTION
-═══════════════════════════════════════════ */
 .section {
   border-bottom:1px solid var(--border);
 }
@@ -142,9 +126,6 @@ body{font-family:var(--font-b);background:#e8e8e8;color:var(--black);}
 }
 .section-body{padding:20px 24px;}
 
-/* ═══════════════════════════════════════════
-   EDITABLE STYLES (CORRIGIDO – sem forçar display)
-═══════════════════════════════════════════ */
 body.editing [contenteditable="true"] {
   outline: 1.5px dashed var(--edit-ring);
   outline-offset: 2px;
@@ -159,7 +140,6 @@ body.editing [contenteditable="true"]:focus {
   background: rgba(204,16,16,0.07);
   outline-color: var(--red-dark);
 }
-
 body.editing .add-row-btn,
 body.editing .del-btn { display: inline-flex; }
 .add-row-btn, .del-btn { display: none; }
@@ -184,9 +164,6 @@ body.editing .del-btn { display: inline-flex; }
 }
 .del-btn:hover { background: var(--red); color: #fff; border-color: var(--red); }
 
-/* ═══════════════════════════════════════════
-   EQUIPE
-═══════════════════════════════════════════ */
 .team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
 .team-card {
   border:1px solid var(--border);border-left:3px solid var(--red);
@@ -198,18 +175,12 @@ body.editing .del-btn { display: inline-flex; }
 .team-role{font-family:var(--font-h);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--red);margin-bottom:3px;}
 .team-name{font-size:12px;color:var(--black);font-weight:500;}
 
-/* ═══════════════════════════════════════════
-   OBJETIVO METRICS
-═══════════════════════════════════════════ */
 .obj-text{font-size:13px;color:var(--gray-mid);line-height:1.7;margin-bottom:16px;}
 .metrics-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
 .metric{background:var(--black);border-radius:3px;padding:16px;text-align:center;}
 .metric-num{font-family:var(--font-h);font-weight:900;font-size:24px;color:var(--red);line-height:1;margin-bottom:4px;}
 .metric-desc{font-size:11px;color:#aaa;line-height:1.4;}
 
-/* ═══════════════════════════════════════════
-   LISTS (escopo, premissas, exclusões)
-═══════════════════════════════════════════ */
 .list-2col{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
 .list-1col{display:flex;flex-direction:column;gap:8px;}
 .list-item{
@@ -222,9 +193,6 @@ body.editing .del-btn { display: inline-flex; }
 .list-item.red-bg{background:#fff5f5;border:1px solid #f0c0c0;}
 .list-bullet{color:var(--red);font-size:12px;margin-top:1px;flex-shrink:0;font-weight:700;}
 
-/* ═══════════════════════════════════════════
-   GANHOS
-═══════════════════════════════════════════ */
 .ganhos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
 .ganha{
   display:flex;align-items:center;gap:10px;
@@ -237,9 +205,6 @@ body.editing .del-btn { display: inline-flex; }
   font-size:13px;flex-shrink:0;
 }
 
-/* ═══════════════════════════════════════════
-   ENTREGÁVEIS TIMELINE
-═══════════════════════════════════════════ */
 .deliverables{display:flex;flex-direction:column;}
 .deliverable{display:flex;align-items:stretch;gap:14px;}
 .d-left{display:flex;flex-direction:column;align-items:center;width:34px;flex-shrink:0;}
@@ -254,9 +219,6 @@ body.editing .del-btn { display: inline-flex; }
 .d-content strong{display:block;font-family:var(--font-h);font-weight:700;font-size:11px;color:var(--black);margin-bottom:2px;}
 .d-row{display:flex;align-items:flex-start;justify-content:space-between;}
 
-/* ═══════════════════════════════════════════
-   RISCOS
-═══════════════════════════════════════════ */
 .risks{display:flex;flex-direction:column;gap:8px;}
 .risk-row{
   display:grid;grid-template-columns:42px 1fr 1fr;
@@ -273,16 +235,26 @@ body.editing .del-btn { display: inline-flex; }
 .risk-row-wrap{display:flex;align-items:stretch;}
 .risk-row-wrap .risk-row{flex:1;}
 
-/* ═══════════════════════════════════════════
-   GMO
-═══════════════════════════════════════════ */
 .gmo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
 .gmo-card{background:var(--black);border-radius:3px;padding:16px 14px;color:#bbb;font-size:12px;line-height:1.6;}
 .gmo-title{font-family:var(--font-h);font-weight:700;color:var(--red);font-size:10px;text-transform:uppercase;letter-spacing:1px;margin-bottom:7px;display:flex;align-items:center;gap:5px;}
 
-/* ═══════════════════════════════════════════
-   FOOTER (doc)
-═══════════════════════════════════════════ */
+/* Cronograma de Sprints */
+.sprints-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.sprint-card{border:1px solid var(--border);border-radius:3px;overflow:hidden;}
+.sprint-header{background:var(--black);padding:10px 12px;}
+.sprint-num{font-family:var(--font-h);font-weight:800;font-size:10px;color:var(--red);letter-spacing:1px;text-transform:uppercase;margin-bottom:2px;}
+.sprint-period{font-family:var(--font-h);font-size:9px;color:#888;}
+.sprint-body{padding:10px 12px;}
+.sprint-title{font-family:var(--font-h);font-weight:700;font-size:10px;color:var(--black);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
+.sprint-items{font-size:11px;color:var(--gray-mid);line-height:1.7;}
+.sprint-badge{
+  display:inline-block;background:var(--red);color:#fff;
+  font-family:var(--font-h);font-size:8px;font-weight:700;
+  padding:2px 7px;border-radius:2px;margin-top:6px;
+}
+.sprint-badge.green{background:#1a7a1a;}
+
 .doc-footer{
   background:var(--black);
   display:flex;align-items:center;justify-content:space-between;
@@ -293,18 +265,12 @@ body.editing .del-btn { display: inline-flex; }
 .doc-footer span em{color:var(--red);font-style:normal;}
 .doc-footer .doc-date{font-family:var(--font-h);font-size:10px;color:#555;}
 
-/* ═══════════════════════════════════════════
-   EDIT HINTS
-═══════════════════════════════════════════ */
 body.editing .section-head::after {
   content:'✎ editável';
   font-size:9px;color:#bbb;font-family:var(--font-h);letter-spacing:.5px;
   margin-left:auto;
 }
 
-/* ═══════════════════════════════════════════
-   PRINT / PDF
-═══════════════════════════════════════════ */
 @media print {
   #toolbar{display:none!important;}
   body{background:#fff;}
@@ -317,7 +283,7 @@ body.editing .section-head::after {
 </head>
 <body class="editing">
 
-<!-- ═══ TOOLBAR ═══ -->
+<!-- TOOLBAR -->
 <div id="toolbar">
   <div class="t-brand">Inova <span>TAP</span></div>
   <button class="t-btn secondary" id="edit-mode-toggle" onclick="toggleEdit()">✎&nbsp; Edição ON</button>
@@ -327,7 +293,7 @@ body.editing .section-head::after {
   <span id="save-indicator">✓ Salvo</span>
 </div>
 
-<!-- ═══ DOCUMENTO ═══ -->
+<!-- DOCUMENTO -->
 <div id="page-wrap">
 
   <!-- HEADER -->
@@ -335,25 +301,25 @@ body.editing .section-head::after {
     <div class="header-stripe"></div>
     <div class="header-inner">
       <div class="header-tag" contenteditable="true">Termo de Abertura do Projeto</div>
-      <div class="header-title" id="main-title-editable" contenteditable="true">Implantação <em>WMS</em></div>
-      <div class="header-sub" contenteditable="true">Controle e otimização de armazém com Sistema de Gerenciamento integrado ao ERP — do recebimento à expedição, com rastreabilidade total e métricas em tempo real.</div>
+      <div class="header-title" id="main-title-editable" contenteditable="true">Shop Floor <em>Management</em></div>
+      <div class="header-sub" contenteditable="true">Implementação da metodologia de Gestão à Vista na Inova Sistemas Eletrônicos — tornando os indicadores operacionais visíveis, padronizando reuniões diárias e criando um ciclo estruturado de identificação e tratamento de problemas no chão de fábrica.</div>
     </div>
     <div class="id-row">
       <div class="id-cell">
         <div class="id-label" contenteditable="true">Nome do Projeto</div>
-        <div class="id-value" contenteditable="true">Implantação WMS</div>
+        <div class="id-value" contenteditable="true">Shop Floor Management</div>
       </div>
       <div class="id-cell">
         <div class="id-label" contenteditable="true">Sponsor</div>
-        <div class="id-value" contenteditable="true">Daltro</div>
+        <div class="id-value" contenteditable="true">Diretoria / Gerência Industrial</div>
       </div>
       <div class="id-cell">
         <div class="id-label" contenteditable="true">Líder</div>
-        <div class="id-value" contenteditable="true">Jeferson Perotti</div>
+        <div class="id-value" contenteditable="true">Thais</div>
       </div>
       <div class="id-cell">
         <div class="id-label" contenteditable="true">Status</div>
-        <div class="id-value"><span class="status-dot">●</span> <span contenteditable="true">Em Estruturação</span></div>
+        <div class="id-value"><span class="status-dot">●</span> <span contenteditable="true">Em Andamento</span></div>
       </div>
     </div>
   </div>
@@ -361,52 +327,53 @@ body.editing .section-head::after {
   <!-- 1. EQUIPE -->
   <div class="section">
     <div class="section-head">
-      <div class="sec-num" contenteditable="true">1</div>
+      <div class="sec-num">1</div>
       <div class="sec-title" contenteditable="true">Equipe do Projeto</div>
     </div>
     <div class="section-body">
       <div class="team-grid" id="team-grid">
-
         <div class="team-card" data-team>
           <div class="team-card-inner">
-            <div class="team-role" contenteditable="true">Operações</div>
-            <div class="team-name" contenteditable="true">Supervisor de Armazém</div>
+            <div class="team-role" contenteditable="true">Líder do Projeto</div>
+            <div class="team-name" contenteditable="true">Thais</div>
           </div>
           <button class="del-btn" onclick="delRow(this,'team-card')" title="Remover">✕</button>
         </div>
-
         <div class="team-card" data-team>
           <div class="team-card-inner">
-            <div class="team-role" contenteditable="true">Tecnologia</div>
-            <div class="team-name" contenteditable="true">Analista de TI</div>
+            <div class="team-role" contenteditable="true">Patrocinador</div>
+            <div class="team-name" contenteditable="true">Diretoria / Gerência Industrial</div>
           </div>
           <button class="del-btn" onclick="delRow(this,'team-card')" title="Remover">✕</button>
         </div>
-
         <div class="team-card" data-team>
           <div class="team-card-inner">
-            <div class="team-role" contenteditable="true">Suprimentos</div>
-            <div class="team-name" contenteditable="true">Comprador</div>
+            <div class="team-role" contenteditable="true">Facilitadores do Quadro</div>
+            <div class="team-name" contenteditable="true">Líderes de Turno / Setor</div>
           </div>
           <button class="del-btn" onclick="delRow(this,'team-card')" title="Remover">✕</button>
         </div>
-
         <div class="team-card" data-team>
           <div class="team-card-inner">
-            <div class="team-role" contenteditable="true">Usuário-Chave</div>
-            <div class="team-name" contenteditable="true">Futuro Superusuário WMS</div>
+            <div class="team-role" contenteditable="true">Produção</div>
+            <div class="team-name" contenteditable="true">Representante Operacional</div>
           </div>
           <button class="del-btn" onclick="delRow(this,'team-card')" title="Remover">✕</button>
         </div>
-
         <div class="team-card" data-team>
           <div class="team-card-inner">
-            <div class="team-role" contenteditable="true">Fornecedor</div>
-            <div class="team-name" contenteditable="true">Consultor de Implantação WMS</div>
+            <div class="team-role" contenteditable="true">Qualidade</div>
+            <div class="team-name" contenteditable="true">Representante de Qualidade</div>
           </div>
           <button class="del-btn" onclick="delRow(this,'team-card')" title="Remover">✕</button>
         </div>
-
+        <div class="team-card" data-team>
+          <div class="team-card-inner">
+            <div class="team-role" contenteditable="true">Manutenção / RH / Segurança</div>
+            <div class="team-name" contenteditable="true">Time Multifuncional</div>
+          </div>
+          <button class="del-btn" onclick="delRow(this,'team-card')" title="Remover">✕</button>
+        </div>
       </div>
       <button class="add-row-btn" onclick="addTeam()">+ Adicionar membro</button>
     </div>
@@ -415,92 +382,149 @@ body.editing .section-head::after {
   <!-- 2. OBJETIVO -->
   <div class="section">
     <div class="section-head">
-      <div class="sec-num" contenteditable="true">2</div>
+      <div class="sec-num">2</div>
       <div class="sec-title" contenteditable="true">Objetivo</div>
     </div>
     <div class="section-body">
       <p class="obj-text" contenteditable="true">
-        Implantar um <strong>Sistema de Gerenciamento de Armazém (WMS)</strong> integrado ao ERP, para controlar e otimizar recebimento, armazenagem, separação, expedição e inventário.
+        Implementar a metodologia <strong>Shop Floor Management (Gestão à Vista)</strong> na Inova Sistemas Eletrônicos, estabelecendo um sistema que torne os indicadores operacionais visíveis, padronize a rotina de reuniões diárias e crie um ciclo estruturado de identificação, tratamento e acompanhamento de problemas no chão de fábrica.
       </p>
       <div class="metrics-row">
         <div class="metric">
-          <div class="metric-num" contenteditable="true">≥ 99%</div>
-          <div class="metric-desc" contenteditable="true">Acurácia de estoque</div>
+          <div class="metric-num" contenteditable="true">≥ 90%</div>
+          <div class="metric-desc" contenteditable="true">Aderência às reuniões diárias</div>
         </div>
         <div class="metric">
-          <div class="metric-num" contenteditable="true">– 80%</div>
-          <div class="metric-desc" contenteditable="true">Redução de erros de separação</div>
+          <div class="metric-num" contenteditable="true">≥ 80%</div>
+          <div class="metric-desc" contenteditable="true">Ações fechadas dentro do prazo</div>
         </div>
         <div class="metric">
-          <div class="metric-num" contenteditable="true">+ 20%</div>
-          <div class="metric-desc" contenteditable="true">Aumento de produtividade (linhas/hora)</div>
+          <div class="metric-num" contenteditable="true">+ OEE</div>
+          <div class="metric-desc" contenteditable="true">Evolução OEE/IROG vs. baseline Sprint 1</div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- 3. ESCOPO -->
+  <!-- 3. CRONOGRAMA DE SPRINTS -->
   <div class="section">
     <div class="section-head">
-      <div class="sec-num" contenteditable="true">3</div>
+      <div class="sec-num">3</div>
+      <div class="sec-title" contenteditable="true">Cronograma de Sprints — 28/04 a 31/12/2026</div>
+    </div>
+    <div class="section-body">
+      <div class="sprints-grid">
+        <div class="sprint-card">
+          <div class="sprint-header">
+            <div class="sprint-num" contenteditable="true">Sprint 1</div>
+            <div class="sprint-period" contenteditable="true">28/04 – 27/06 / 2026</div>
+          </div>
+          <div class="sprint-body">
+            <div class="sprint-title" contenteditable="true">Diagnóstico, Planejamento e Setup</div>
+            <div class="sprint-items" contenteditable="true">Kick-off · Baseline de indicadores · Visita técnica · Gabarito do quadro · Definição de papéis</div>
+            <div class="sprint-badge" contenteditable="true">Em Andamento</div>
+          </div>
+        </div>
+        <div class="sprint-card">
+          <div class="sprint-header">
+            <div class="sprint-num" contenteditable="true">Sprint 2</div>
+            <div class="sprint-period" contenteditable="true">28/06 – 27/08 / 2026</div>
+          </div>
+          <div class="sprint-body">
+            <div class="sprint-title" contenteditable="true">Implementação Física e Indicadores</div>
+            <div class="sprint-items" contenteditable="true">Fabricação e instalação do quadro · Implantação dos 15 indicadores · Tabelas de ação · Sistema de coleta</div>
+            <div class="sprint-badge" style="background:#555" contenteditable="true">Não Iniciado</div>
+          </div>
+        </div>
+        <div class="sprint-card">
+          <div class="sprint-header">
+            <div class="sprint-num" contenteditable="true">Sprint 3</div>
+            <div class="sprint-period" contenteditable="true">28/08 – 27/10 / 2026</div>
+          </div>
+          <div class="sprint-body">
+            <div class="sprint-title" contenteditable="true">Operacionalização e Treinamento</div>
+            <div class="sprint-items" contenteditable="true">Reunião diária ativa · POP da reunião · Treinamento de líderes e operadores · Coaching inicial</div>
+            <div class="sprint-badge" style="background:#555" contenteditable="true">Não Iniciado</div>
+          </div>
+        </div>
+        <div class="sprint-card">
+          <div class="sprint-header">
+            <div class="sprint-num" contenteditable="true">Sprint 4</div>
+            <div class="sprint-period" contenteditable="true">28/10 – 31/12 / 2026</div>
+          </div>
+          <div class="sprint-body">
+            <div class="sprint-title" contenteditable="true">Consolidação, Auditoria e Melhoria Contínua</div>
+            <div class="sprint-items" contenteditable="true">Auditoria de maturidade · Ciclo PDCA · Manual Padrão Inova · Apresentação executiva · Handover</div>
+            <div class="sprint-badge" style="background:#555" contenteditable="true">Não Iniciado</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. ESCOPO -->
+  <div class="section">
+    <div class="section-head">
+      <div class="sec-num">4</div>
       <div class="sec-title" contenteditable="true">Escopo</div>
     </div>
     <div class="section-body">
       <div class="list-2col" id="escopo-list">
-        <div class="list-item gray-bg"><span class="list-bullet">▸</span><span contenteditable="true">Levantamento de requisitos e mapeamento de processos (AS-IS / TO-BE)</span><button class="del-btn" onclick="delRow(this,'list-item')" title="Remover">✕</button></div>
-        <div class="list-item gray-bg"><span class="list-bullet">▸</span><span contenteditable="true">Seleção do fornecedor (RFP, POC, contratação)</span><button class="del-btn" onclick="delRow(this,'list-item')" title="Remover">✕</button></div>
-        <div class="list-item gray-bg"><span class="list-bullet">▸</span><span contenteditable="true">Adequação da rede Wi-Fi e aquisição de coletores/impressoras</span><button class="del-btn" onclick="delRow(this,'list-item')" title="Remover">✕</button></div>
-        <div class="list-item gray-bg"><span class="list-bullet">▸</span><span contenteditable="true">Parametrização do WMS (endereços, produtos, regras de armazenagem)</span><button class="del-btn" onclick="delRow(this,'list-item')" title="Remover">✕</button></div>
-        <div class="list-item gray-bg"><span class="list-bullet">▸</span><span contenteditable="true">Integração com o ERP (APIs / web services)</span><button class="del-btn" onclick="delRow(this,'list-item')" title="Remover">✕</button></div>
-        <div class="list-item gray-bg"><span class="list-bullet">▸</span><span contenteditable="true">Testes integrados (WMS + ERP + hardware)</span><button class="del-btn" onclick="delRow(this,'list-item')" title="Remover">✕</button></div>
-        <div class="list-item gray-bg"><span class="list-bullet">▸</span><span contenteditable="true">Treinamento de operadores, supervisores e TI</span><button class="del-btn" onclick="delRow(this,'list-item')" title="Remover">✕</button></div>
-        <div class="list-item gray-bg"><span class="list-bullet">▸</span><span contenteditable="true">Go-live com suporte intensivo + estabilização (30 dias)</span><button class="del-btn" onclick="delRow(this,'list-item')" title="Remover">✕</button></div>
+        <div class="list-item gray-bg"><span class="list-bullet">▸</span><span contenteditable="true">Definição de indicadores de Segurança, Absenteísmo, OEE/IROG, Refugo, Retrabalho, Parada de Linha, Produtividade e Atendimento</span><button class="del-btn" onclick="delRow(this,'list-item')" title="Remover">✕</button></div>
+        <div class="list-item gray-bg"><span class="list-bullet">▸</span><span contenteditable="true">Quadro físico de Gestão à Vista: gabarito técnico, materiais e instalação no corredor produtivo</span><button class="del-btn" onclick="delRow(this,'list-item')" title="Remover">✕</button></div>
+        <div class="list-item gray-bg"><span class="list-bullet">▸</span><span contenteditable="true">Implantação das três colunas: Pessoas, Desempenho e Ações (curto e médio prazo)</span><button class="del-btn" onclick="delRow(this,'list-item')" title="Remover">✕</button></div>
+        <div class="list-item gray-bg"><span class="list-bullet">▸</span><span contenteditable="true">Rotina de reuniões diárias padronizadas (15–20 min na frente do quadro)</span><button class="del-btn" onclick="delRow(this,'list-item')" title="Remover">✕</button></div>
+        <div class="list-item gray-bg"><span class="list-bullet">▸</span><span contenteditable="true">Treinamento de lideranças e operadores na rotina, ferramentas e tratativas de ações</span><button class="del-btn" onclick="delRow(this,'list-item')" title="Remover">✕</button></div>
+        <div class="list-item gray-bg"><span class="list-bullet">▸</span><span contenteditable="true">Procedimento Operacional Padrão (POP) da reunião diária</span><button class="del-btn" onclick="delRow(this,'list-item')" title="Remover">✕</button></div>
+        <div class="list-item gray-bg"><span class="list-bullet">▸</span><span contenteditable="true">Auditoria de aderência e maturidade do SFM</span><button class="del-btn" onclick="delRow(this,'list-item')" title="Remover">✕</button></div>
+        <div class="list-item gray-bg"><span class="list-bullet">▸</span><span contenteditable="true">Ciclo PDCA estruturado e Manual Padrão Inova de Shop Floor Management</span><button class="del-btn" onclick="delRow(this,'list-item')" title="Remover">✕</button></div>
       </div>
       <button class="add-row-btn" onclick="addListItem('escopo-list','gray-bg')">+ Adicionar item</button>
     </div>
   </div>
 
-  <!-- 4. GANHOS -->
+  <!-- 5. GANHOS -->
   <div class="section">
     <div class="section-head">
-      <div class="sec-num" contenteditable="true">4</div>
-      <div class="sec-title" contenteditable="true">Ganhos</div>
+      <div class="sec-num">5</div>
+      <div class="sec-title" contenteditable="true">Ganhos Esperados</div>
     </div>
     <div class="section-body">
       <div class="ganhos-grid" id="ganhos-grid">
-        <div class="ganha"><div class="ganha-icon" contenteditable="true">📊</div><span contenteditable="true">Visibilidade em tempo real do estoque</span><button class="del-btn" onclick="delRow(this,'ganha')" title="Remover">✕</button></div>
-        <div class="ganha"><div class="ganha-icon" contenteditable="true">🔍</div><span contenteditable="true">Rastreabilidade completa (lotes, validades, séries)</span><button class="del-btn" onclick="delRow(this,'ganha')" title="Remover">✕</button></div>
-        <div class="ganha"><div class="ganha-icon" contenteditable="true">📦</div><span contenteditable="true">Otimização do espaço com endereçamento dinâmico</span><button class="del-btn" onclick="delRow(this,'ganha')" title="Remover">✕</button></div>
-        <div class="ganha"><div class="ganha-icon" contenteditable="true">✂️</div><span contenteditable="true">Redução de retrabalho e devoluções por erros</span><button class="del-btn" onclick="delRow(this,'ganha')" title="Remover">✕</button></div>
-        <div class="ganha"><div class="ganha-icon" contenteditable="true">📈</div><span contenteditable="true">Indicadores (KPIs) para tomada de decisão</span><button class="del-btn" onclick="delRow(this,'ganha')" title="Remover">✕</button></div>
-        <div class="ganha"><div class="ganha-icon" contenteditable="true">💰</div><span contenteditable="true">ROI estimado em 12 a 18 meses</span><button class="del-btn" onclick="delRow(this,'ganha')" title="Remover">✕</button></div>
+        <div class="ganha"><div class="ganha-icon" contenteditable="true">📊</div><span contenteditable="true">Visibilidade em tempo real dos indicadores do chão de fábrica</span><button class="del-btn" onclick="delRow(this,'ganha')" title="Remover">✕</button></div>
+        <div class="ganha"><div class="ganha-icon" contenteditable="true">🔄</div><span contenteditable="true">Rotina padronizada e estruturada de resolução de problemas</span><button class="del-btn" onclick="delRow(this,'ganha')" title="Remover">✕</button></div>
+        <div class="ganha"><div class="ganha-icon" contenteditable="true">📉</div><span contenteditable="true">Redução de refugo, retrabalho e paradas de linha</span><button class="del-btn" onclick="delRow(this,'ganha')" title="Remover">✕</button></div>
+        <div class="ganha"><div class="ganha-icon" contenteditable="true">👥</div><span contenteditable="true">Engajamento e protagonismo das equipes operacionais</span><button class="del-btn" onclick="delRow(this,'ganha')" title="Remover">✕</button></div>
+        <div class="ganha"><div class="ganha-icon" contenteditable="true">📈</div><span contenteditable="true">Evolução contínua de OEE/IROG e produtividade</span><button class="del-btn" onclick="delRow(this,'ganha')" title="Remover">✕</button></div>
+        <div class="ganha"><div class="ganha-icon" contenteditable="true">🏆</div><span contenteditable="true">Cultura de melhoria contínua sustentada no dia a dia</span><button class="del-btn" onclick="delRow(this,'ganha')" title="Remover">✕</button></div>
       </div>
       <button class="add-row-btn" onclick="addGanha()">+ Adicionar ganho</button>
     </div>
   </div>
 
-  <!-- 5. PREMISSAS -->
+  <!-- 6. PREMISSAS -->
   <div class="section">
     <div class="section-head">
-      <div class="sec-num" contenteditable="true">5</div>
+      <div class="sec-num">6</div>
       <div class="sec-title" contenteditable="true">Premissas</div>
     </div>
     <div class="section-body">
       <div class="list-1col" id="premissas-list">
-        <div class="list-item red-left"><span contenteditable="true">O cliente fornecerá acesso às pessoas e sistemas fonte necessários ao projeto.</span><button class="del-btn" onclick="delRow(this,'list-item')" title="Remover">✕</button></div>
-        <div class="list-item red-left"><span contenteditable="true">O armazém está fisicamente apto a receber endereçamento (corredores e prateleiras identificáveis).</span><button class="del-btn" onclick="delRow(this,'list-item')" title="Remover">✕</button></div>
-        <div class="list-item red-left"><span contenteditable="true">O ERP possui APIs ou estrutura acessível para integração com o WMS.</span><button class="del-btn" onclick="delRow(this,'list-item')" title="Remover">✕</button></div>
-        <div class="list-item red-left"><span contenteditable="true">O fornecedor selecionado terá experiência comprovada no segmento industrial/eletrônico.</span><button class="del-btn" onclick="delRow(this,'list-item')" title="Remover">✕</button></div>
+        <div class="list-item red-left"><span contenteditable="true">Disponibilidade da liderança operacional para participação nas reuniões diárias.</span><button class="del-btn" onclick="delRow(this,'list-item')" title="Remover">✕</button></div>
+        <div class="list-item red-left"><span contenteditable="true">Acesso aos dados históricos de produção, qualidade e segurança para composição do baseline.</span><button class="del-btn" onclick="delRow(this,'list-item')" title="Remover">✕</button></div>
+        <div class="list-item red-left"><span contenteditable="true">Apoio executivo ativo para sustentar a cadência e a cultura ao longo de todo o ciclo de 2026.</span><button class="del-btn" onclick="delRow(this,'list-item')" title="Remover">✕</button></div>
+        <div class="list-item red-left"><span contenteditable="true">Pelo menos uma visita técnica à fábrica para medições e definição do ponto de instalação do quadro.</span><button class="del-btn" onclick="delRow(this,'list-item')" title="Remover">✕</button></div>
+        <div class="list-item red-left"><span contenteditable="true">Cronograma fixo de 4 sprints trimestrais respeitado pela organização.</span><button class="del-btn" onclick="delRow(this,'list-item')" title="Remover">✕</button></div>
       </div>
       <button class="add-row-btn" onclick="addListItem('premissas-list','red-left')">+ Adicionar premissa</button>
     </div>
   </div>
 
-  <!-- 6. ENTREGÁVEIS -->
+  <!-- 7. ENTREGÁVEIS -->
   <div class="section">
     <div class="section-head">
-      <div class="sec-num" contenteditable="true">6</div>
-      <div class="sec-title" contenteditable="true">Entregáveis</div>
+      <div class="sec-num">7</div>
+      <div class="sec-title" contenteditable="true">Entregáveis por Sprint</div>
     </div>
     <div class="section-body">
       <div class="deliverables" id="deliverables-list">
@@ -509,7 +533,7 @@ body.editing .section-head::after {
           <div class="d-left"><div class="d-dot" contenteditable="true">E1</div><div class="d-line"></div></div>
           <div class="d-content">
             <div class="d-row">
-              <div><strong contenteditable="true">Requisitos e Processos</strong><span contenteditable="true">Documento de requisitos e processos AS-IS / TO-BE aprovado.</span></div>
+              <div><strong contenteditable="true">Mapa Mental e Plano do Projeto</strong><span contenteditable="true">Sprint 1 (28/abr–27/jun): Documento de planejamento, cronograma de sprints e mapa de atividades aprovado.</span></div>
               <button class="del-btn" onclick="delRow(this,'deliverable')" title="Remover" style="margin-top:2px;">✕</button>
             </div>
           </div>
@@ -519,7 +543,7 @@ body.editing .section-head::after {
           <div class="d-left"><div class="d-dot" contenteditable="true">E2</div><div class="d-line"></div></div>
           <div class="d-content">
             <div class="d-row">
-              <div><strong contenteditable="true">Fornecedor Contratado</strong><span contenteditable="true">Fornecedor selecionado e plano de implantação detalhado assinado.</span></div>
+              <div><strong contenteditable="true">Diagnóstico Inicial e Baseline de Indicadores</strong><span contenteditable="true">Sprint 1 (28/abr–27/jun): Levantamento de OEE/IROG, refugo, absenteísmo e demais indicadores com valores baseline.</span></div>
               <button class="del-btn" onclick="delRow(this,'deliverable')" title="Remover">✕</button>
             </div>
           </div>
@@ -529,7 +553,7 @@ body.editing .section-head::after {
           <div class="d-left"><div class="d-dot" contenteditable="true">E3</div><div class="d-line"></div></div>
           <div class="d-content">
             <div class="d-row">
-              <div><strong contenteditable="true">Infraestrutura Instalada</strong><span contenteditable="true">Rede Wi-Fi, coletores e impressoras instalados e testados.</span></div>
+              <div><strong contenteditable="true">Gabarito Técnico e Quadro Físico Instalado</strong><span contenteditable="true">Sprint 2 (28/jun–27/ago): Desenho técnico aprovado, quadro fabricado e instalado no corredor produtivo com layout de 3 colunas.</span></div>
               <button class="del-btn" onclick="delRow(this,'deliverable')" title="Remover">✕</button>
             </div>
           </div>
@@ -539,7 +563,7 @@ body.editing .section-head::after {
           <div class="d-left"><div class="d-dot" contenteditable="true">E4</div><div class="d-line"></div></div>
           <div class="d-content">
             <div class="d-row">
-              <div><strong contenteditable="true">WMS Parametrizado e Integrado</strong><span contenteditable="true">Sistema configurado e integrado ao ERP em produção.</span></div>
+              <div><strong contenteditable="true">Painéis de Pessoas, Desempenho e Ações Implantados</strong><span contenteditable="true">Sprint 2 (28/jun–27/ago): Todos os 15 indicadores ativos, tabelas de ação de curto e médio prazo em operação.</span></div>
               <button class="del-btn" onclick="delRow(this,'deliverable')" title="Remover">✕</button>
             </div>
           </div>
@@ -549,7 +573,7 @@ body.editing .section-head::after {
           <div class="d-left"><div class="d-dot" contenteditable="true">E5</div><div class="d-line"></div></div>
           <div class="d-content">
             <div class="d-row">
-              <div><strong contenteditable="true">Relatório de Testes Aprovado</strong><span contenteditable="true">Testes integrados (WMS + ERP + hardware) homologados.</span></div>
+              <div><strong contenteditable="true">POP da Reunião Diária e Treinamento Concluído</strong><span contenteditable="true">Sprint 3 (28/ago–27/out): Procedimento Operacional Padrão aprovado, líderes e operadores treinados, reunião diária ativa.</span></div>
               <button class="del-btn" onclick="delRow(this,'deliverable')" title="Remover">✕</button>
             </div>
           </div>
@@ -559,7 +583,7 @@ body.editing .section-head::after {
           <div class="d-left"><div class="d-dot" contenteditable="true">E6</div><div class="d-line"></div></div>
           <div class="d-content">
             <div class="d-row">
-              <div><strong contenteditable="true">Treinamento e Manuais</strong><span contenteditable="true">Capacitação realizada e manuais entregues a operadores e TI.</span></div>
+              <div><strong contenteditable="true">Auditoria de Maturidade e Relatório de Resultados</strong><span contenteditable="true">Sprint 4 (28/out–31/dez): Auditoria de aderência aplicada, gaps identificados, comparativo de indicadores vs. baseline.</span></div>
               <button class="del-btn" onclick="delRow(this,'deliverable')" title="Remover">✕</button>
             </div>
           </div>
@@ -569,7 +593,7 @@ body.editing .section-head::after {
           <div class="d-left"><div class="d-dot" contenteditable="true">E7</div></div>
           <div class="d-content">
             <div class="d-row">
-              <div><strong contenteditable="true">Go-live + Estabilização</strong><span contenteditable="true">Go-live concluído e relatório de estabilização (30 dias) aprovado.</span></div>
+              <div><strong contenteditable="true">Manual Padrão Inova de SFM + Handover</strong><span contenteditable="true">Sprint 4 (28/out–31/dez): Documentação completa do padrão, apresentação executiva e passagem da rotina para liderança operacional.</span></div>
               <button class="del-btn" onclick="delRow(this,'deliverable')" title="Remover">✕</button>
             </div>
           </div>
@@ -580,28 +604,28 @@ body.editing .section-head::after {
     </div>
   </div>
 
-  <!-- 7. EXCLUSÕES -->
+  <!-- 8. EXCLUSÕES -->
   <div class="section">
     <div class="section-head">
-      <div class="sec-num" contenteditable="true">7</div>
+      <div class="sec-num">8</div>
       <div class="sec-title" contenteditable="true">Exclusões do Escopo</div>
     </div>
     <div class="section-body">
       <div class="list-2col" id="exclusoes-list">
-        <div class="list-item red-bg"><span class="list-bullet">✕</span><span contenteditable="true">Modificações no ERP fora das interfaces de integração previstas.</span><button class="del-btn" onclick="delRow(this,'list-item')" title="Remover">✕</button></div>
-        <div class="list-item red-bg"><span class="list-bullet">✕</span><span contenteditable="true">Obras civis ou reformas estruturais no armazém.</span><button class="del-btn" onclick="delRow(this,'list-item')" title="Remover">✕</button></div>
-        <div class="list-item red-bg"><span class="list-bullet">✕</span><span contenteditable="true">Migração de dados históricos não essenciais à operação.</span><button class="del-btn" onclick="delRow(this,'list-item')" title="Remover">✕</button></div>
-        <div class="list-item red-bg"><span class="list-bullet">✕</span><span contenteditable="true">Desenvolvimento de customizações não acordadas em contrato.</span><button class="del-btn" onclick="delRow(this,'list-item')" title="Remover">✕</button></div>
-        <div class="list-item red-bg"><span class="list-bullet">✕</span><span contenteditable="true">Manutenção corretiva após período de garantia (contrato separado).</span><button class="del-btn" onclick="delRow(this,'list-item')" title="Remover">✕</button></div>
+        <div class="list-item red-bg"><span class="list-bullet">✕</span><span contenteditable="true">Substituição ou modificação de sistemas ERP/MES existentes.</span><button class="del-btn" onclick="delRow(this,'list-item')" title="Remover">✕</button></div>
+        <div class="list-item red-bg"><span class="list-bullet">✕</span><span contenteditable="true">Implantação de coleta automática de dados (fica como recomendação de próxima fase).</span><button class="del-btn" onclick="delRow(this,'list-item')" title="Remover">✕</button></div>
+        <div class="list-item red-bg"><span class="list-bullet">✕</span><span contenteditable="true">Reformas estruturais ou alterações de layout no chão de fábrica.</span><button class="del-btn" onclick="delRow(this,'list-item')" title="Remover">✕</button></div>
+        <div class="list-item red-bg"><span class="list-bullet">✕</span><span contenteditable="true">Desenvolvimento de software ou aplicativos de gestão.</span><button class="del-btn" onclick="delRow(this,'list-item')" title="Remover">✕</button></div>
+        <div class="list-item red-bg"><span class="list-bullet">✕</span><span contenteditable="true">Projetos de replicação em outras unidades (contemplado como recomendação futura).</span><button class="del-btn" onclick="delRow(this,'list-item')" title="Remover">✕</button></div>
       </div>
       <button class="add-row-btn" onclick="addListItem('exclusoes-list','red-bg')">+ Adicionar exclusão</button>
     </div>
   </div>
 
-  <!-- 8. RISCOS -->
+  <!-- 9. RISCOS -->
   <div class="section">
     <div class="section-head">
-      <div class="sec-num" contenteditable="true">8</div>
+      <div class="sec-num">9</div>
       <div class="sec-title" contenteditable="true">Riscos e Mitigações</div>
     </div>
     <div class="section-body">
@@ -610,8 +634,8 @@ body.editing .section-head::after {
         <div class="risk-row-wrap" data-risk>
           <div class="risk-row">
             <div class="risk-id" contenteditable="true">R1</div>
-            <div class="risk-cell"><div class="risk-label" contenteditable="true">Risco</div><span contenteditable="true">Atraso na entrega de infraestrutura (rede, coletores).</span></div>
-            <div class="risk-cell"><div class="risk-label" contenteditable="true">Mitigação</div><span contenteditable="true">Comprar com antecedência; ter fornecedor reserva homologado.</span></div>
+            <div class="risk-cell"><div class="risk-label">Risco</div><span contenteditable="true">Baixa aderência da liderança às reuniões diárias, comprometendo a cadência do SFM.</span></div>
+            <div class="risk-cell"><div class="risk-label">Mitigação</div><span contenteditable="true">Patrocínio executivo ativo, acompanhamento semanal de aderência e indicador visível no quadro.</span></div>
           </div>
           <button class="del-btn" onclick="delRow(this,'risk-row-wrap')" title="Remover" style="margin-left:8px;align-self:center;">✕</button>
         </div>
@@ -619,8 +643,8 @@ body.editing .section-head::after {
         <div class="risk-row-wrap" data-risk>
           <div class="risk-row">
             <div class="risk-id" contenteditable="true">R2</div>
-            <div class="risk-cell"><div class="risk-label" contenteditable="true">Risco</div><span contenteditable="true">Problemas de integração com o ERP.</span></div>
-            <div class="risk-cell"><div class="risk-label" contenteditable="true">Mitigação</div><span contenteditable="true">Realizar POC da integração antes de assinar contrato.</span></div>
+            <div class="risk-cell"><div class="risk-label">Risco</div><span contenteditable="true">Dados de indicadores indisponíveis ou inconsistentes para formação do baseline.</span></div>
+            <div class="risk-cell"><div class="risk-label">Mitigação</div><span contenteditable="true">Levantamento de fontes alternativas na Sprint 1; definição de coleta manual como contingência.</span></div>
           </div>
           <button class="del-btn" onclick="delRow(this,'risk-row-wrap')" title="Remover" style="margin-left:8px;align-self:center;">✕</button>
         </div>
@@ -628,8 +652,8 @@ body.editing .section-head::after {
         <div class="risk-row-wrap" data-risk>
           <div class="risk-row">
             <div class="risk-id" contenteditable="true">R3</div>
-            <div class="risk-cell"><div class="risk-label" contenteditable="true">Risco</div><span contenteditable="true">Resistência dos operadores à mudança.</span></div>
-            <div class="risk-cell"><div class="risk-label" contenteditable="true">Mitigação</div><span contenteditable="true">Plano de comunicação, envolvimento de líderes e treinamento prático.</span></div>
+            <div class="risk-cell"><div class="risk-label">Risco</div><span contenteditable="true">Resistência dos operadores à mudança de rotina e ao uso do quadro.</span></div>
+            <div class="risk-cell"><div class="risk-label">Mitigação</div><span contenteditable="true">Envolvimento desde a Sprint 1, comunicação clara do "porquê", treinamento prático e reconhecimento.</span></div>
           </div>
           <button class="del-btn" onclick="delRow(this,'risk-row-wrap')" title="Remover" style="margin-left:8px;align-self:center;">✕</button>
         </div>
@@ -637,8 +661,8 @@ body.editing .section-head::after {
         <div class="risk-row-wrap" data-risk>
           <div class="risk-row">
             <div class="risk-id" contenteditable="true">R4</div>
-            <div class="risk-cell"><div class="risk-label" contenteditable="true">Risco</div><span contenteditable="true">Queda de produtividade pós-go-live.</span></div>
-            <div class="risk-cell"><div class="risk-label" contenteditable="true">Mitigação</div><span contenteditable="true">Planejar operação extra e realizar go-live em semana de menor demanda.</span></div>
+            <div class="risk-cell"><div class="risk-label">Risco</div><span contenteditable="true">Regressão após implantação — quadro desatualizado ou reunião abandonada.</span></div>
+            <div class="risk-cell"><div class="risk-label">Mitigação</div><span contenteditable="true">Auditoria de maturidade na Sprint 4, PDCA estruturado e handover formal para liderança operacional.</span></div>
           </div>
           <button class="del-btn" onclick="delRow(this,'risk-row-wrap')" title="Remover" style="margin-left:8px;align-self:center;">✕</button>
         </div>
@@ -648,19 +672,19 @@ body.editing .section-head::after {
     </div>
   </div>
 
-  <!-- 9. GMO -->
+  <!-- 10. GMO -->
   <div class="section">
     <div class="section-head">
-      <div class="sec-num" contenteditable="true">9</div>
+      <div class="sec-num">10</div>
       <div class="sec-title" contenteditable="true">Gestão de Mudança Organizacional (GMO)</div>
     </div>
     <div class="section-body">
       <div class="gmo-grid" id="gmo-grid">
-        <div class="gmo-card"><div class="gmo-title"><span contenteditable="true">📢</span> <span contenteditable="true">Comunicação</span></div><span contenteditable="true">Plano de comunicação interna com reuniões, e-mails e cartazes explicando o "porquê" da mudança e os benefícios para cada perfil.</span><button class="del-btn" onclick="delRow(this,'gmo-card')" title="Remover">✕</button></div>
-        <div class="gmo-card"><div class="gmo-title"><span contenteditable="true">🤝</span> <span contenteditable="true">Envolvimento</span></div><span contenteditable="true">Grupo de "embaixadores" com operadores experientes que participarão dos testes e darão feedback formal.</span><button class="del-btn" onclick="delRow(this,'gmo-card')" title="Remover">✕</button></div>
-        <div class="gmo-card"><div class="gmo-title"><span contenteditable="true">🎓</span> <span contenteditable="true">Treinamento</span></div><span contenteditable="true">Programa escalonado (teoria + prática supervisionada) com certificação por nível de proficiência.</span><button class="del-btn" onclick="delRow(this,'gmo-card')" title="Remover">✕</button></div>
-        <div class="gmo-card"><div class="gmo-title"><span contenteditable="true">📋</span> <span contenteditable="true">Acompanhamento</span></div><span contenteditable="true">Pesquisas de clima e canais anônimos para dúvidas e sugestões durante e após o go-live.</span><button class="del-btn" onclick="delRow(this,'gmo-card')" title="Remover">✕</button></div>
-        <div class="gmo-card"><div class="gmo-title"><span contenteditable="true">🏆</span> <span contenteditable="true">Reconhecimento</span></div><span contenteditable="true">Premiação simbólica para os operadores que mais contribuírem com a transição do sistema.</span><button class="del-btn" onclick="delRow(this,'gmo-card')" title="Remover">✕</button></div>
+        <div class="gmo-card"><div class="gmo-title"><span contenteditable="true">📢</span> <span contenteditable="true">Comunicação</span></div><span contenteditable="true">Plano de comunicação interna sobre o SFM — cartazes, e-mails e reuniões explicando o "porquê" da mudança e os benefícios para cada área.</span><button class="del-btn" onclick="delRow(this,'gmo-card')" title="Remover">✕</button></div>
+        <div class="gmo-card"><div class="gmo-title"><span contenteditable="true">🤝</span> <span contenteditable="true">Envolvimento</span></div><span contenteditable="true">Grupo de multiplicadores com líderes experientes que participam dos testes, validam o quadro e disseminam a prática.</span><button class="del-btn" onclick="delRow(this,'gmo-card')" title="Remover">✕</button></div>
+        <div class="gmo-card"><div class="gmo-title"><span contenteditable="true">🎓</span> <span contenteditable="true">Treinamento</span></div><span contenteditable="true">Capacitação escalonada: workshops teóricos sobre Lean/SFM + prática supervisionada no chão de fábrica.</span><button class="del-btn" onclick="delRow(this,'gmo-card')" title="Remover">✕</button></div>
+        <div class="gmo-card"><div class="gmo-title"><span contenteditable="true">📋</span> <span contenteditable="true">Acompanhamento</span></div><span contenteditable="true">Checklist de qualidade da reunião diária e coaching dos líderes nas primeiras semanas de operação.</span><button class="del-btn" onclick="delRow(this,'gmo-card')" title="Remover">✕</button></div>
+        <div class="gmo-card"><div class="gmo-title"><span contenteditable="true">🏆</span> <span contenteditable="true">Reconhecimento</span></div><span contenteditable="true">Celebração de marcos do projeto e premiação simbólica para equipes com maior aderência e resultados.</span><button class="del-btn" onclick="delRow(this,'gmo-card')" title="Remover">✕</button></div>
       </div>
       <button class="add-row-btn" onclick="addGMO()">+ Adicionar pilar GMO</button>
     </div>
@@ -668,18 +692,16 @@ body.editing .section-head::after {
 
   <!-- FOOTER DOC -->
   <div class="doc-footer">
-    <span contenteditable="true">Inova <em>Sistemas Eletrônicos</em> · TAP – Implantação WMS</span>
+    <span contenteditable="true">Inova <em>Sistemas Eletrônicos</em> · TAP – Shop Floor Management</span>
     <span class="doc-date" id="doc-date" contenteditable="true"></span>
   </div>
 
 </div><!-- /page-wrap -->
 
 <script>
-/* ─── DATE ─── */
 document.getElementById('doc-date').textContent =
   new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'});
 
-/* ─── SYNC MAIN TITLE TO PAGE TITLE ─── */
 const mainTitleEl = document.getElementById('main-title-editable');
 const updatePageTitle = () => {
   document.title = mainTitleEl.textContent.trim() + ' · Inova TAP';
@@ -687,7 +709,6 @@ const updatePageTitle = () => {
 mainTitleEl.addEventListener('input', updatePageTitle);
 updatePageTitle();
 
-/* ─── EDIT MODE ─── */
 let editMode = true;
 function toggleEdit(){
   editMode = !editMode;
@@ -697,34 +718,27 @@ function toggleEdit(){
   btn.classList.toggle('active', editMode);
 }
 
-/* ─── SAVE TO LOCALSTORAGE ─── */
 function saveLocal(){
-  localStorage.setItem('tap_wms_html', document.getElementById('page-wrap').innerHTML);
+  localStorage.setItem('tap_sfm_html', document.getElementById('page-wrap').innerHTML);
   const ind = document.getElementById('save-indicator');
   ind.style.opacity='1';
   setTimeout(()=>ind.style.opacity='0', 2000);
 }
 
-/* auto-save on any input */
 document.getElementById('page-wrap').addEventListener('input', ()=>{
   clearTimeout(window._autoSave);
   window._autoSave = setTimeout(saveLocal, 1500);
 });
 
-/* restore on load */
 window.addEventListener('DOMContentLoaded', ()=>{
-  const saved = localStorage.getItem('tap_wms_html');
+  const saved = localStorage.getItem('tap_sfm_html');
   if(saved) {
     document.getElementById('page-wrap').innerHTML = saved;
     const newMain = document.getElementById('main-title-editable');
-    if(newMain) {
-      newMain.addEventListener('input', updatePageTitle);
-      updatePageTitle();
-    }
+    if(newMain) { newMain.addEventListener('input', updatePageTitle); updatePageTitle(); }
   }
 });
 
-/* ─── DEL ROW ─── */
 function delRow(btn, cls){
   const el = btn.closest('.'+cls);
   if(el) el.remove();
@@ -733,7 +747,6 @@ function delRow(btn, cls){
   saveLocal();
 }
 
-/* ─── ADD HELPERS ─── */
 function addTeam(){
   const grid = document.getElementById('team-grid');
   const card = document.createElement('div');
@@ -802,8 +815,8 @@ function addRisk(){
   wrap.className='risk-row-wrap'; wrap.setAttribute('data-risk','');
   wrap.innerHTML=`<div class="risk-row">
     <div class="risk-id" contenteditable="true">R${count}</div>
-    <div class="risk-cell"><div class="risk-label" contenteditable="true">Risco</div><span contenteditable="true">Descrição do risco.</span></div>
-    <div class="risk-cell"><div class="risk-label" contenteditable="true">Mitigação</div><span contenteditable="true">Ação de mitigação.</span></div>
+    <div class="risk-cell"><div class="risk-label">Risco</div><span contenteditable="true">Descrição do risco.</span></div>
+    <div class="risk-cell"><div class="risk-label">Mitigação</div><span contenteditable="true">Ação de mitigação.</span></div>
   </div>
   <button class="del-btn" onclick="delRow(this,'risk-row-wrap')" style="margin-left:8px;align-self:center;">✕</button>`;
   list.appendChild(wrap);
@@ -825,10 +838,8 @@ function addGMO(){
   el.querySelector('[contenteditable]').focus();
 }
 
-/* ─── EXPORT PDF ─── */
 function exportPDF(){
   saveLocal();
-
   document.body.classList.remove('editing');
   document.querySelectorAll('.add-row-btn,.del-btn').forEach(el=>{
     el.style.setProperty('display','none','important');
@@ -837,25 +848,13 @@ function exportPDF(){
   toolbar.style.display='none';
 
   const element = document.getElementById('page-wrap');
-
   const opt = {
-    margin:      [8, 8, 8, 8],
-    filename:    'TAP_Implantacao_WMS_Inova.pdf',
-    image:       {type:'jpeg', quality:0.98},
-    html2canvas: {
-      scale: 2,
-      useCORS: true,
-      letterRendering: true,
-      logging: false,
-      backgroundColor:'#ffffff'
-    },
-    jsPDF: {
-      unit:'mm',
-      format:'a4',
-      orientation:'portrait',
-      compress: true
-    },
-    pagebreak: { mode:['avoid-all','css','legacy'] }
+    margin: [8,8,8,8],
+    filename: 'TAP_ShopFloor_Inova.pdf',
+    image: {type:'jpeg', quality:0.98},
+    html2canvas: {scale:2, useCORS:true, letterRendering:true, logging:false, backgroundColor:'#ffffff'},
+    jsPDF: {unit:'mm', format:'a4', orientation:'portrait', compress:true},
+    pagebreak: {mode:['avoid-all','css','legacy']}
   };
 
   html2pdf().set(opt).from(element).save().then(()=>{
